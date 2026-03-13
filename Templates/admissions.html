@@ -1,0 +1,845 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Apply for Admission - Lincoln University{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Begin Your Journey at Lincoln</h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">Join our community of scholars, innovators, and future leaders. Complete your application below.</p>
+                <div class="application-progress animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="progress-steps d-flex justify-content-between">
+                        <div class="step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Personal Info</div>
+                        </div>
+                        <div class="step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Academic Details</div>
+                        </div>
+                        <div class="step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Documents</div>
+                        </div>
+                        <div class="step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Review & Submit</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Application Deadline Alert -->
+<section class="deadline-alert py-3 bg-warning bg-opacity-10">
+    <div class="container">
+        <div class="alert alert-warning border-0 bg-transparent text-center mb-0">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <strong>Early Decision Deadline:</strong> December 15, 2024 | Regular Decision: March 15, 2025
+            <a href="#" class="text-dark ms-3" data-bs-toggle="modal" data-bs-target="#deadlineModal">View All Deadlines <i class="fas fa-arrow-right ms-1"></i></a>
+        </div>
+    </div>
+</section>
+
+<!-- Main Application Section -->
+<section class="application-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                {% if user.is_authenticated %}
+                    <!-- Application Form Card -->
+                    <div class="application-card">
+                        <div class="card border-0 shadow-lg">
+                            <div class="card-header bg-white border-0 pt-4 px-4">
+                                <ul class="nav nav-tabs card-header-tabs" id="applicationTabs" role="tablist">
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link active" id="new-tab" data-bs-toggle="tab" data-bs-target="#new" type="button" role="tab">
+                                            <i class="fas fa-plus-circle me-2"></i>New Application
+                                        </button>
+                                    </li>
+                                    <li class="nav-item" role="presentation">
+                                        <button class="nav-link" id="draft-tab" data-bs-toggle="tab" data-bs-target="#draft" type="button" role="tab">
+                                            <i class="fas fa-save me-2"></i>Saved Drafts
+                                            <span class="badge bg-primary ms-2">2</span>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-body p-4">
+                                <div class="tab-content" id="applicationTabsContent">
+                                    <!-- New Application Tab -->
+                                    <div class="tab-pane fade show active" id="new" role="tabpanel">
+                                        <form method="post" id="admissionForm" enctype="multipart/form-data" novalidate>
+                                            {% csrf_token %}
+                                            
+                                            <!-- Step 1: Personal Information -->
+                                            <div class="form-step active" data-step="1">
+                                                <h4 class="mb-4">Personal Information</h4>
+                                                
+                                                {% if form.non_field_errors %}
+                                                    <div class="alert alert-danger">
+                                                        {% for error in form.non_field_errors %}
+                                                            {{ error }}
+                                                        {% endfor %}
+                                                    </div>
+                                                {% endif %}
+                                                
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">
+                                                            Full Name <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="text" 
+                                                               name="full_name" 
+                                                               class="form-control {% if form.full_name.errors %}is-invalid{% endif %}"
+                                                               value="{{ form.full_name.value|default:'' }}"
+                                                               placeholder="Enter your full name"
+                                                               required>
+                                                        {% if form.full_name.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.full_name.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">
+                                                            Date of Birth <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="date" 
+                                                               name="date_of_birth" 
+                                                               class="form-control {% if form.date_of_birth.errors %}is-invalid{% endif %}"
+                                                               value="{{ form.date_of_birth.value|date:'Y-m-d' }}"
+                                                               required>
+                                                        {% if form.date_of_birth.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.date_of_birth.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">
+                                                            Email Address <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="email" 
+                                                               name="email" 
+                                                               class="form-control {% if form.email.errors %}is-invalid{% endif %}"
+                                                               value="{{ form.email.value|default:user.email }}"
+                                                               placeholder="your.email@example.com"
+                                                               required>
+                                                        {% if form.email.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.email.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">
+                                                            Phone Number <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="tel" 
+                                                               name="phone" 
+                                                               class="form-control {% if form.phone.errors %}is-invalid{% endif %}"
+                                                               value="{{ form.phone.value|default:'' }}"
+                                                               placeholder="+1 234 567 8900"
+                                                               required>
+                                                        {% if form.phone.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.phone.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-12">
+                                                        <label class="form-label">
+                                                            Current Address <span class="text-danger">*</span>
+                                                        </label>
+                                                        <textarea name="address" 
+                                                                  class="form-control {% if form.address.errors %}is-invalid{% endif %}"
+                                                                  rows="3"
+                                                                  placeholder="Enter your complete address"
+                                                                  required>{{ form.address.value|default:'' }}</textarea>
+                                                        {% if form.address.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.address.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">City</label>
+                                                        <input type="text" class="form-control" placeholder="City">
+                                                    </div>
+                                                    
+                                                    <div class="col-md-4">
+                                                        <label class="form-label">State</label>
+                                                        <select class="form-select">
+                                                            <option value="">Select State</option>
+                                                            <option>California</option>
+                                                            <option>Texas</option>
+                                                            <option>New York</option>
+                                                            <option>Florida</option>
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-2">
+                                                        <label class="form-label">ZIP Code</label>
+                                                        <input type="text" class="form-control" placeholder="ZIP">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-end mt-4">
+                                                    <button type="button" class="btn btn-primary next-step">Next Step <i class="fas fa-arrow-right ms-2"></i></button>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Step 2: Academic Information -->
+                                            <div class="form-step" data-step="2" style="display: none;">
+                                                <h4 class="mb-4">Academic Information</h4>
+                                                
+                                                <div class="row g-3">
+                                                    <div class="col-12">
+                                                        <label class="form-label">
+                                                            Select Program <span class="text-danger">*</span>
+                                                        </label>
+                                                        <select name="course" 
+                                                                class="form-select {% if form.course.errors %}is-invalid{% endif %}"
+                                                                required>
+                                                            <option value="">Choose your program</option>
+                                                            {% for course in form.course.field.queryset %}
+                                                                <option value="{{ course.id }}" {% if form.course.value == course.id %}selected{% endif %}>
+                                                                    {{ course.name }} ({{ course.code }}) - {{ course.duration }}
+                                                                </option>
+                                                            {% endfor %}
+                                                        </select>
+                                                        {% if form.course.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.course.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">
+                                                            Previous Qualification <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="text" 
+                                                               name="previous_qualification" 
+                                                               class="form-control {% if form.previous_qualification.errors %}is-invalid{% endif %}"
+                                                               value="{{ form.previous_qualification.value|default:'' }}"
+                                                               placeholder="e.g., High School Diploma, Bachelor's Degree"
+                                                               required>
+                                                        {% if form.previous_qualification.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.previous_qualification.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">
+                                                            Marks/GPA <span class="text-danger">*</span>
+                                                        </label>
+                                                        <input type="text" 
+                                                               name="marks" 
+                                                               class="form-control {% if form.marks.errors %}is-invalid{% endif %}"
+                                                               value="{{ form.marks.value|default:'' }}"
+                                                               placeholder="e.g., 85%, 3.5 GPA"
+                                                               required>
+                                                        {% if form.marks.errors %}
+                                                            <div class="invalid-feedback">
+                                                                {{ form.marks.errors.0 }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Year of Passing</label>
+                                                        <select class="form-select">
+                                                            <option value="">Select Year</option>
+                                                            {% for year in "2024,2023,2022,2021,2020,2019,2018"|make_list %}
+                                                                <option>{{ year }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                    
+                                                    <div class="col-md-6">
+                                                        <label class="form-label">Institution Name</label>
+                                                        <input type="text" class="form-control" placeholder="Name of previous institution">
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-between mt-4">
+                                                    <button type="button" class="btn btn-outline-secondary prev-step"><i class="fas fa-arrow-left me-2"></i>Previous</button>
+                                                    <button type="button" class="btn btn-primary next-step">Next Step <i class="fas fa-arrow-right ms-2"></i></button>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Step 3: Documents Upload -->
+                                            <div class="form-step" data-step="3" style="display: none;">
+                                                <h4 class="mb-4">Upload Documents</h4>
+                                                
+                                                <div class="upload-area p-4 mb-4 text-center border rounded-3 bg-light">
+                                                    <i class="fas fa-cloud-upload-alt fa-4x text-primary mb-3"></i>
+                                                    <h5>Drag & Drop Files Here</h5>
+                                                    <p class="text-muted mb-3">or</p>
+                                                    <button type="button" class="btn btn-primary" onclick="document.getElementById('documents').click()">
+                                                        Browse Files
+                                                    </button>
+                                                    <input type="file" id="documents" name="documents" class="d-none" multiple accept=".pdf,.doc,.docx">
+                                                    <p class="text-muted small mt-3">Supported formats: PDF, DOC, DOCX (Max size: 5MB each)</p>
+                                                </div>
+                                                
+                                                <div class="document-list mb-4">
+                                                    <h6 class="mb-3">Required Documents:</h6>
+                                                    <ul class="list-unstyled">
+                                                        <li class="mb-2">
+                                                            <label class="d-flex align-items-center">
+                                                                <input type="checkbox" class="form-check-input me-2">
+                                                                <span>Academic Transcripts <span class="text-danger">*</span></span>
+                                                            </label>
+                                                        </li>
+                                                        <li class="mb-2">
+                                                            <label class="d-flex align-items-center">
+                                                                <input type="checkbox" class="form-check-input me-2">
+                                                                <span>Letter of Recommendation <span class="text-danger">*</span></span>
+                                                            </label>
+                                                        </li>
+                                                        <li class="mb-2">
+                                                            <label class="d-flex align-items-center">
+                                                                <input type="checkbox" class="form-check-input me-2">
+                                                                <span>Statement of Purpose <span class="text-danger">*</span></span>
+                                                            </label>
+                                                        </li>
+                                                        <li class="mb-2">
+                                                            <label class="d-flex align-items-center">
+                                                                <input type="checkbox" class="form-check-input me-2">
+                                                                <span>Resume/CV</span>
+                                                            </label>
+                                                        </li>
+                                                        <li class="mb-2">
+                                                            <label class="d-flex align-items-center">
+                                                                <input type="checkbox" class="form-check-input me-2">
+                                                                <span>Test Scores (SAT/GRE/TOEFL)</span>
+                                                            </label>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-between mt-4">
+                                                    <button type="button" class="btn btn-outline-secondary prev-step"><i class="fas fa-arrow-left me-2"></i>Previous</button>
+                                                    <button type="button" class="btn btn-primary next-step">Next Step <i class="fas fa-arrow-right ms-2"></i></button>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Step 4: Review & Submit -->
+                                            <div class="form-step" data-step="4" style="display: none;">
+                                                <h4 class="mb-4">Review Your Application</h4>
+                                                
+                                                <div class="review-section bg-light p-4 rounded-3 mb-4">
+                                                    <h5 class="mb-3">Personal Information</h5>
+                                                    <div class="row mb-4">
+                                                        <div class="col-md-6">
+                                                            <p class="mb-1"><strong>Full Name:</strong> <span class="review-name">-</span></p>
+                                                            <p class="mb-1"><strong>Date of Birth:</strong> <span class="review-dob">-</span></p>
+                                                            <p class="mb-1"><strong>Email:</strong> <span class="review-email">{{ user.email }}</span></p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p class="mb-1"><strong>Phone:</strong> <span class="review-phone">-</span></p>
+                                                            <p class="mb-1"><strong>Address:</strong> <span class="review-address">-</span></p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <h5 class="mb-3">Academic Information</h5>
+                                                    <div class="row mb-4">
+                                                        <div class="col-md-6">
+                                                            <p class="mb-1"><strong>Program:</strong> <span class="review-course">-</span></p>
+                                                            <p class="mb-1"><strong>Previous Qualification:</strong> <span class="review-qualification">-</span></p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p class="mb-1"><strong>Marks/GPA:</strong> <span class="review-marks">-</span></p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <h5 class="mb-3">Documents</h5>
+                                                    <p class="review-documents">3 documents selected</p>
+                                                </div>
+                                                
+                                                <div class="terms-section mb-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="terms" required>
+                                                        <label class="form-check-label" for="terms">
+                                                            I confirm that all information provided is true and accurate. I understand that any false statements may result in disqualification.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="d-flex justify-content-between mt-4">
+                                                    <button type="button" class="btn btn-outline-secondary prev-step"><i class="fas fa-arrow-left me-2"></i>Previous</button>
+                                                    <button type="submit" class="btn btn-success" id="submitApplication">
+                                                        <i class="fas fa-check-circle me-2"></i>Submit Application
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    
+                                    <!-- Drafts Tab -->
+                                    <div class="tab-pane fade" id="draft" role="tabpanel">
+                                        <div class="drafts-list">
+                                            <div class="draft-item p-3 mb-3 border rounded-3">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h6 class="mb-1">Computer Science Application</h6>
+                                                        <p class="text-muted small mb-0">Last edited: March 10, 2024</p>
+                                                    </div>
+                                                    <div>
+                                                        <span class="badge bg-warning me-2">75% Complete</span>
+                                                        <button class="btn btn-sm btn-outline-primary">Continue</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="draft-item p-3 mb-3 border rounded-3">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
+                                                        <h6 class="mb-1">Business Administration Application</h6>
+                                                        <p class="text-muted small mb-0">Last edited: March 5, 2024</p>
+                                                    </div>
+                                                    <div>
+                                                        <span class="badge bg-warning me-2">40% Complete</span>
+                                                        <button class="btn btn-sm btn-outline-primary">Continue</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Application Tips -->
+                    <div class="tips-card mt-4">
+                        <div class="card border-0 bg-primary bg-opacity-10">
+                            <div class="card-body p-4">
+                                <h5 class="mb-3"><i class="fas fa-lightbulb text-primary me-2"></i>Application Tips</h5>
+                                <ul class="list-unstyled mb-0">
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Have all your documents ready before starting</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Double-check your email address for accuracy</li>
+                                    <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> You can save your progress and return later</li>
+                                    <li><i class="fas fa-check-circle text-success me-2"></i> Contact admissions office for assistance</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                {% else %}
+                    <!-- Not Authenticated -->
+                    <div class="text-center">
+                        <div class="welcome-card mb-4">
+                            <i class="fas fa-university fa-5x text-primary mb-4"></i>
+                            <h2 class="mb-3">Start Your Application</h2>
+                            <p class="lead mb-4">Join Lincoln University and begin your journey to success.</p>
+                        </div>
+                        
+                        <div class="row g-4 mb-5">
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="fas fa-file-alt fa-2x text-primary mb-3"></i>
+                                    <h5>Simple Process</h5>
+                                    <p class="small text-muted">Easy step-by-step application process</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="fas fa-clock fa-2x text-primary mb-3"></i>
+                                    <h5>Save Progress</h5>
+                                    <p class="small text-muted">Save and continue later</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="feature-box p-3">
+                                    <i class="fas fa-headset fa-2x text-primary mb-3"></i>
+                                    <h5>24/7 Support</h5>
+                                    <p class="small text-muted">Get help anytime</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="{% url 'login' %}?next={% url 'admissions' %}" class="btn btn-primary btn-lg px-5 py-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>Login to Apply
+                            </a>
+                            <a href="{% url 'register' %}?next={% url 'admissions' %}" class="btn btn-outline-primary btn-lg px-5 py-3">
+                                <i class="fas fa-user-plus me-2"></i>Create Account
+                            </a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Deadline Modal -->
+<div class="modal fade" id="deadlineModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title">Application Deadlines</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Deadline Type</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Early Decision</td>
+                            <td>December 15, 2024</td>
+                        </tr>
+                        <tr>
+                            <td>Regular Decision</td>
+                            <td>March 15, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>International Students</td>
+                            <td>February 1, 2025</td>
+                        </tr>
+                        <tr>
+                            <td>Transfer Students</td>
+                            <td>April 1, 2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Custom Styles */
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Progress Steps */
+.progress-steps {
+    max-width: 600px;
+    margin: 30px auto 0;
+}
+
+.step {
+    position: relative;
+    flex: 1;
+    text-align: center;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 10px;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.step.active .step-number {
+    background: white;
+    color: var(--bs-primary);
+}
+
+.step.completed .step-number {
+    background: #28a745;
+    color: white;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.step.active .step-label {
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* Application Card */
+.application-card {
+    animation: slideInUp 0.5s ease;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Upload Area */
+.upload-area {
+    border: 2px dashed #dee2e6;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    border-color: var(--bs-primary);
+    background: #f8f9fa !important;
+}
+
+.upload-area.dragover {
+    border-color: var(--bs-primary);
+    background: #e9ecef !important;
+}
+
+/* Form Steps */
+.form-step {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Feature Boxes */
+.feature-box {
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Document List */
+.document-list .form-check-input:checked + span {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .step-label {
+        font-size: 0.8rem;
+    }
+    
+    .progress-steps {
+        padding: 0 10px;
+    }
+    
+    .step-number {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<!-- Add Animation CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Form Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Multi-step form navigation
+    const steps = document.querySelectorAll('.form-step');
+    const progressSteps = document.querySelectorAll('.step');
+    const nextButtons = document.querySelectorAll('.next-step');
+    const prevButtons = document.querySelectorAll('.prev-step');
+    
+    let currentStep = 1;
+    
+    function showStep(step) {
+        steps.forEach(s => {
+            s.style.display = 'none';
+        });
+        
+        progressSteps.forEach((ps, index) => {
+            if (index + 1 < step) {
+                ps.classList.add('completed');
+                ps.classList.remove('active');
+            } else if (index + 1 === step) {
+                ps.classList.add('active');
+                ps.classList.remove('completed');
+            } else {
+                ps.classList.remove('active', 'completed');
+            }
+        });
+        
+        document.querySelector(`.form-step[data-step="${step}"]`).style.display = 'block';
+        currentStep = step;
+        
+        // Update review section if on step 4
+        if (step === 4) {
+            updateReviewSection();
+        }
+    }
+    
+    nextButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (validateStep(currentStep)) {
+                if (currentStep < steps.length) {
+                    showStep(currentStep + 1);
+                }
+            }
+        });
+    });
+    
+    prevButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        });
+    });
+    
+    function validateStep(step) {
+        const currentStepElement = document.querySelector(`.form-step[data-step="${step}"]`);
+        const requiredFields = currentStepElement.querySelectorAll('[required]');
+        let isValid = true;
+        
+        requiredFields.forEach(field => {
+            if (!field.value) {
+                field.classList.add('is-invalid');
+                isValid = false;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+        
+        if (!isValid) {
+            alert('Please fill in all required fields');
+        }
+        
+        return isValid;
+    }
+    
+    function updateReviewSection() {
+        // Update personal info
+        document.querySelector('.review-name').textContent = document.querySelector('[name="full_name"]').value || '-';
+        document.querySelector('.review-dob').textContent = document.querySelector('[name="date_of_birth"]').value || '-';
+        document.querySelector('.review-phone').textContent = document.querySelector('[name="phone"]').value || '-';
+        document.querySelector('.review-address').textContent = document.querySelector('[name="address"]').value || '-';
+        
+        // Update academic info
+        const courseSelect = document.querySelector('[name="course"]');
+        const courseText = courseSelect.options[courseSelect.selectedIndex]?.text || '-';
+        document.querySelector('.review-course').textContent = courseText;
+        document.querySelector('.review-qualification').textContent = document.querySelector('[name="previous_qualification"]').value || '-';
+        document.querySelector('.review-marks').textContent = document.querySelector('[name="marks"]').value || '-';
+    }
+    
+    // File upload drag and drop
+    const uploadArea = document.querySelector('.upload-area');
+    const fileInput = document.getElementById('documents');
+    
+    if (uploadArea && fileInput) {
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.add('dragover');
+            });
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.remove('dragover');
+            });
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            fileInput.files = files;
+            updateFileList(files);
+        });
+        
+        uploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', () => {
+            updateFileList(fileInput.files);
+        });
+    }
+    
+    function updateFileList(files) {
+        const fileList = document.querySelector('.file-list');
+        if (fileList) {
+            fileList.innerHTML = '';
+            Array.from(files).forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item d-flex align-items-center justify-content-between p-2 mb-2 bg-light rounded';
+                fileItem.innerHTML = `
+                    <span><i class="fas fa-file me-2"></i>${file.name}</span>
+                    <small class="text-muted">${(file.size / 1024).toFixed(2)} KB</small>
+                `;
+                fileList.appendChild(fileItem);
+            });
+        }
+    }
+    
+    // Form submission
+    const form = document.getElementById('admissionForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            if (!document.getElementById('terms').checked) {
+                e.preventDefault();
+                alert('Please accept the terms and conditions');
+            }
+        });
+    }
+    
+    // Initialize first step
+    showStep(1);
+});
+</script>
+{% endblock %}

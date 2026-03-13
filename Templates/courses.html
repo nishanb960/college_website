@@ -1,0 +1,720 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Academic Programs - Lincoln University{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInUp">Academic Programs</h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">Discover our comprehensive range of undergraduate and graduate programs designed to prepare you for success in your chosen field.</p>
+                <div class="d-flex gap-3 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="stat-badge">
+                        <span class="h4 fw-bold">50+</span>
+                        <span class="d-block">Programs</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span class="h4 fw-bold">15:1</span>
+                        <span class="d-block">Student Ratio</span>
+                    </div>
+                    <div class="stat-badge">
+                        <span class="h4 fw-bold">90%</span>
+                        <span class="d-block">Placement</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="header-search bg-white p-4 rounded-3">
+                    <h5 class="mb-3 text-dark">Find Your Program</h5>
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control form-control-lg" id="courseSearch" placeholder="Search courses...">
+                        <button class="btn btn-primary" type="button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="filter-chip active" data-filter="all">All</span>
+                        <span class="filter-chip" data-filter="undergraduate">Undergraduate</span>
+                        <span class="filter-chip" data-filter="graduate">Graduate</span>
+                        <span class="filter-chip" data-filter="diploma">Diploma</span>
+                        <span class="filter-chip" data-filter="certificate">Certificate</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quick Stats -->
+<section class="stats-bar py-4 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-3 mb-md-0">
+                <div class="stat-item">
+                    <i class="fas fa-book-open text-primary mb-2"></i>
+                    <h3 class="h5 mb-0">8 Departments</h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3 mb-md-0">
+                <div class="stat-item">
+                    <i class="fas fa-clock text-primary mb-2"></i>
+                    <h3 class="h5 mb-0">Flexible Schedule</h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3 mb-md-0">
+                <div class="stat-item">
+                    <i class="fas fa-award text-primary mb-2"></i>
+                    <h3 class="h5 mb-0">Accredited</h3>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3 mb-md-0">
+                <div class="stat-item">
+                    <i class="fas fa-globe text-primary mb-2"></i>
+                    <h3 class="h5 mb-0">Global Recognition</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Courses Section -->
+<section class="courses-section py-5">
+    <div class="container">
+        <!-- Category Tabs -->
+        <ul class="nav nav-pills mb-5 justify-content-center" id="courseTabs" role="tablist">
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link active" id="all-tab" data-bs-toggle="pill" data-bs-target="#all" type="button" role="tab">
+                    All Programs
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="undergraduate-tab" data-bs-toggle="pill" data-bs-target="#undergraduate" type="button" role="tab">
+                    Undergraduate
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="graduate-tab" data-bs-toggle="pill" data-bs-target="#graduate" type="button" role="tab">
+                    Graduate
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="diploma-tab" data-bs-toggle="pill" data-bs-target="#diploma" type="button" role="tab">
+                    Diploma
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="certificate-tab" data-bs-toggle="pill" data-bs-target="#certificate" type="button" role="tab">
+                    Certificate
+                </button>
+            </li>
+        </ul>
+
+        <!-- Courses Grid -->
+        <div class="tab-content" id="courseTabsContent">
+            <div class="tab-pane fade show active" id="all" role="tabpanel">
+                <div class="row g-4" id="coursesContainer">
+                    {% for course in courses %}
+                    <div class="col-lg-4 col-md-6 course-item" data-category="{{ course.category|default:'undergraduate' }}">
+                        <div class="course-card h-100">
+                            <div class="course-image position-relative">
+                                {% if course.image %}
+                                    <img src="{{ course.image.url }}" class="img-fluid w-100" alt="{{ course.name }}">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid w-100" alt="Course">
+                                {% endif %}
+                                <span class="course-badge">{{ course.code }}</span>
+                                {% if course.is_featured %}
+                                <span class="featured-badge">
+                                    <i class="fas fa-crown"></i> Featured
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="course-content p-4">
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <h3 class="h5 fw-bold mb-0">{{ course.name }}</h3>
+                                    <span class="course-type">{{ course.get_category_display|default:"Undergraduate" }}</span>
+                                </div>
+                                
+                                <p class="text-muted small mb-3">
+                                    <i class="fas fa-code-branch me-1"></i> {{ course.code }}
+                                </p>
+                                
+                                <p class="course-description mb-3">{{ course.description|truncatewords:20 }}</p>
+                                
+                                <div class="course-meta mb-3">
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <div class="meta-item">
+                                                <i class="far fa-clock text-primary"></i>
+                                                <span>{{ course.duration }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="meta-item">
+                                                <i class="fas fa-tag text-primary"></i>
+                                                <span>${{ course.fees|floatformat:0 }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="meta-item">
+                                                <i class="fas fa-users text-primary"></i>
+                                                <span>{{ course.seats|default:"30" }} Seats</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="meta-item">
+                                                <i class="fas fa-calendar-alt text-primary"></i>
+                                                <span>Fall 2024</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="d-flex gap-2 mt-3">
+                                    <a href="#" class="btn btn-outline-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#courseModal{{ course.id }}">
+                                        <i class="fas fa-info-circle me-1"></i> Details
+                                    </a>
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url 'admissions' %}" class="btn btn-primary flex-grow-1">
+                                            Apply <i class="fas fa-arrow-right ms-1"></i>
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'login' %}?next={% url 'admissions' %}" class="btn btn-primary flex-grow-1">
+                                            Login to Apply
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Course Detail Modal -->
+                    <div class="modal fade" id="courseModal{{ course.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title">{{ course.name }}</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h6 class="fw-bold mb-3">Program Overview</h6>
+                                            <p>{{ course.description }}</p>
+                                            
+                                            <h6 class="fw-bold mb-3 mt-4">Program Details</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Duration:</strong> {{ course.duration }}</li>
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Program Code:</strong> {{ course.code }}</li>
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Total Fees:</strong> ${{ course.fees }}</li>
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Available Seats:</strong> {{ course.seats|default:"30" }}</li>
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> <strong>Language:</strong> English</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="fw-bold mb-3">Curriculum Highlights</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> Core Courses: 8</li>
+                                                <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> Electives: 4</li>
+                                                <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> Projects: 2</li>
+                                                <li class="mb-2"><i class="fas fa-star text-warning me-2"></i> Internship: Required</li>
+                                            </ul>
+                                            
+                                            <h6 class="fw-bold mb-3 mt-4">Career Opportunities</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2"><i class="fas fa-briefcase text-primary me-2"></i> Industry Roles</li>
+                                                <li class="mb-2"><i class="fas fa-briefcase text-primary me-2"></i> Research Positions</li>
+                                                <li class="mb-2"><i class="fas fa-briefcase text-primary me-2"></i> Higher Education</li>
+                                            </ul>
+                                            
+                                            <div class="alert alert-info mt-3">
+                                                <i class="fas fa-info-circle me-2"></i>
+                                                Applications close: December 15, 2024
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    {% if user.is_authenticated %}
+                                        <a href="{% url 'admissions' %}" class="btn btn-primary">Apply Now</a>
+                                    {% else %}
+                                        <a href="{% url 'login' %}" class="btn btn-primary">Login to Apply</a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <img src="https://via.placeholder.com/200x200?text=No+Courses" class="mb-4" alt="No courses">
+                        <h3>No Courses Available</h3>
+                        <p class="text-muted">Check back later for updates on our academic programs.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Other tabs content would be populated dynamically -->
+            <div class="tab-pane fade" id="undergraduate" role="tabpanel">
+                <div class="row g-4">
+                    <!-- Filtered courses would appear here -->
+                </div>
+            </div>
+            <!-- Add similar divs for other tabs -->
+        </div>
+
+        <!-- Pagination -->
+        {% if courses.has_other_pages %}
+        <nav aria-label="Course navigation" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if courses.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ courses.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for i in courses.paginator.page_range %}
+                <li class="page-item {% if courses.number == i %}active{% endif %}">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endfor %}
+                
+                {% if courses.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ courses.next_page_number }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Program Comparison Section -->
+<section class="comparison-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-4 mb-3">Compare Programs</span>
+            <h2 class="display-5 fw-bold">Find Your Perfect Match</h2>
+            <p class="lead text-muted">Compare different programs side by side</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="comparison-card bg-white p-4 rounded-3 shadow-sm h-100">
+                    <div class="text-center mb-4">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary p-3 rounded-3 d-inline-block">
+                            <i class="fas fa-graduation-cap fa-3x"></i>
+                        </div>
+                        <h4 class="mt-3">Undergraduate</h4>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 4 Years Duration</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 120 Credit Hours</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Internship Included</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Study Abroad Option</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="comparison-card bg-white p-4 rounded-3 shadow-sm h-100 border-primary border-2">
+                    <div class="text-center mb-4">
+                        <div class="icon-box bg-primary text-white p-3 rounded-3 d-inline-block">
+                            <i class="fas fa-user-graduate fa-3x"></i>
+                        </div>
+                        <h4 class="mt-3">Graduate</h4>
+                        <span class="badge bg-primary">Most Popular</span>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 2 Years Duration</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 36 Credit Hours</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Thesis Option</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Research Assistant</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="comparison-card bg-white p-4 rounded-3 shadow-sm h-100">
+                    <div class="text-center mb-4">
+                        <div class="icon-box bg-success bg-opacity-10 text-success p-3 rounded-3 d-inline-block">
+                            <i class="fas fa-certificate fa-3x"></i>
+                        </div>
+                        <h4 class="mt-3">Certificate</h4>
+                    </div>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 6-12 Months</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Flexible Schedule</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Online Option</li>
+                        <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Industry Certification</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-4 mb-3">FAQ</span>
+            <h2 class="display-5 fw-bold">Frequently Asked Questions</h2>
+            <p class="lead text-muted">Everything you need to know about our programs</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-light rounded-3" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                What are the admission requirements?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Requirements vary by program. Generally, undergraduate programs require high school diploma and standardized test scores. Graduate programs require bachelor's degree and relevant experience.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-light rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                Are scholarships available?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Yes, we offer merit-based and need-based scholarships. International students are also eligible for various financial aid options.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0 mb-3">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-light rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                Can I study part-time?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Many of our programs offer part-time options. Check individual course pages for specific availability.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button bg-light rounded-3 collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                What is the application deadline?
+                            </button>
+                        </h2>
+                        <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Fall semester: August 15, Spring semester: December 15, Summer session: April 15. Early application is encouraged.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section py-5 bg-primary text-white">
+    <div class="container text-center">
+        <h2 class="display-5 fw-bold mb-4">Ready to Begin Your Journey?</h2>
+        <p class="lead mb-5">Take the next step towards your future with Lincoln University</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'admissions' %}" class="btn btn-light btn-lg px-5 py-3">Apply Now</a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5 py-3">Talk to Advisor</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Course Page Styles */
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.stat-badge {
+    text-align: center;
+}
+
+.stat-badge span:first-child {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.filter-chip {
+    padding: 8px 16px;
+    background: #f8f9fa;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.filter-chip:hover {
+    background: #e9ecef;
+}
+
+.filter-chip.active {
+    background: var(--bs-primary);
+    color: white;
+}
+
+/* Course Cards */
+.course-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.course-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.course-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.course-image img {
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.course-card:hover .course-image img {
+    transform: scale(1.1);
+}
+
+.course-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #ffc107;
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.course-type {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+    background: #e9ecef;
+    border-radius: 15px;
+    color: #495057;
+}
+
+.course-meta {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.meta-item i {
+    font-size: 0.9rem;
+    width: 16px;
+}
+
+/* Comparison Cards */
+.comparison-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.comparison-card.border-primary {
+    border-width: 2px !important;
+}
+
+.comparison-card .icon-box {
+    transition: all 0.3s;
+}
+
+.comparison-card:hover .icon-box {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* FAQ Accordion */
+.accordion-button:not(.collapsed) {
+    background-color: #e9ecef;
+    color: var(--bs-primary);
+    box-shadow: none;
+}
+
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+/* Pagination */
+.page-link {
+    color: var(--bs-primary);
+    border: none;
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 8px;
+}
+
+.page-link:hover {
+    background: #e9ecef;
+    color: var(--bs-primary);
+}
+
+.page-item.active .page-link {
+    background: var(--bs-primary);
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .page-header {
+        text-align: center;
+    }
+    
+    .filter-chip {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+    }
+    
+    .nav-pills {
+        flex-wrap: wrap;
+    }
+    
+    .nav-item {
+        margin: 5px !important;
+    }
+}
+</style>
+
+<!-- Add Animation CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Search and Filter Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality
+    const searchInput = document.getElementById('courseSearch');
+    const courseItems = document.querySelectorAll('.course-item');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            courseItems.forEach(item => {
+                const title = item.querySelector('.h5').textContent.toLowerCase();
+                const desc = item.querySelector('.course-description').textContent.toLowerCase();
+                const code = item.querySelector('.text-muted.small').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || desc.includes(searchTerm) || code.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Filter chips
+    const filterChips = document.querySelectorAll('.filter-chip');
+    
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            filterChips.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            if (filter === 'all') {
+                courseItems.forEach(item => item.style.display = 'block');
+            } else {
+                courseItems.forEach(item => {
+                    if (item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+    
+    // Tab filtering
+    const tabs = document.querySelectorAll('[data-bs-toggle="pill"]');
+    
+    tabs.forEach(tab => {
+        tab.addEventListener('shown.bs.tab', function(event) {
+            const targetId = event.target.getAttribute('data-bs-target');
+            const category = targetId.replace('#', '');
+            
+            if (category === 'all') {
+                courseItems.forEach(item => item.style.display = 'block');
+            } else {
+                courseItems.forEach(item => {
+                    if (item.dataset.category === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

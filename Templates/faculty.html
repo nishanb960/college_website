@@ -1,0 +1,724 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Our Faculty - Lincoln University{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Meet Our Distinguished Faculty</h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">Learn from the best - our faculty members are leaders in their fields, dedicated to your success.</p>
+                <div class="faculty-stats d-flex justify-content-center gap-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">50+</span>
+                        <span class="d-block">Expert Faculty</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">15:1</span>
+                        <span class="d-block">Student Ratio</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">90%</span>
+                        <span class="d-block">PhD Holders</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Faculty Search and Filter Section -->
+<section class="filter-section py-4 bg-light">
+    <div class="container">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-4">
+                <div class="search-box">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-primary"></i>
+                        </span>
+                        <input type="text" 
+                               class="form-control border-start-0 ps-0" 
+                               id="facultySearch" 
+                               placeholder="Search faculty by name, department...">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="filter-chips d-flex flex-wrap gap-2">
+                    <span class="filter-chip active" data-filter="all">All Faculty</span>
+                    <span class="filter-chip" data-filter="professor">Professors</span>
+                    <span class="filter-chip" data-filter="associate">Associate Professors</span>
+                    <span class="filter-chip" data-filter="assistant">Assistant Professors</span>
+                    <span class="filter-chip" data-filter="lecturer">Lecturers</span>
+                    <span class="filter-chip" data-filter="research">Researchers</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Faculty Grid Section -->
+<section class="faculty-section py-5">
+    <div class="container">
+        <!-- Department Tabs -->
+        <ul class="nav nav-pills mb-5 justify-content-center" id="deptTabs" role="tablist">
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link active" id="all-dept-tab" data-bs-toggle="pill" data-bs-target="#all-dept" type="button" role="tab">
+                    All Departments
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="cs-tab" data-bs-toggle="pill" data-bs-target="#cs" type="button" role="tab">
+                    Computer Science
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="engineering-tab" data-bs-toggle="pill" data-bs-target="#engineering" type="button" role="tab">
+                    Engineering
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="business-tab" data-bs-toggle="pill" data-bs-target="#business" type="button" role="tab">
+                    Business
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="sciences-tab" data-bs-toggle="pill" data-bs-target="#sciences" type="button" role="tab">
+                    Sciences
+                </button>
+            </li>
+            <li class="nav-item mx-2" role="presentation">
+                <button class="nav-link" id="arts-tab" data-bs-toggle="pill" data-bs-target="#arts" type="button" role="tab">
+                    Arts & Humanities
+                </button>
+            </li>
+        </ul>
+
+        <!-- Faculty Grid -->
+        <div class="tab-content" id="deptTabsContent">
+            <div class="tab-pane fade show active" id="all-dept" role="tabpanel">
+                <div class="row g-4" id="facultyContainer">
+                    {% for faculty in faculty_members %}
+                    <div class="col-xl-3 col-lg-4 col-md-6 faculty-item" 
+                         data-name="{{ faculty.name|lower }}" 
+                         data-dept="{{ faculty.department|default:'cs'|lower }}"
+                         data-title="{{ faculty.designation|lower }}">
+                        <div class="faculty-card h-100">
+                            <!-- Profile Image with Social Links -->
+                            <div class="faculty-image position-relative">
+                                {% if faculty.image %}
+                                    <img src="{{ faculty.image.url }}" class="img-fluid" alt="{{ faculty.name }}">
+                                {% else %}
+                                    <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid" alt="Faculty">
+                                {% endif %}
+                                <div class="social-overlay">
+                                    <a href="#" class="social-link" title="Email"><i class="fas fa-envelope"></i></a>
+                                    <a href="#" class="social-link" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                                    <a href="#" class="social-link" title="Twitter"><i class="fab fa-twitter"></i></a>
+                                    <a href="#" class="social-link" title="Research"><i class="fas fa-flask"></i></a>
+                                </div>
+                                {% if faculty.is_featured %}
+                                <span class="featured-badge">
+                                    <i class="fas fa-star"></i> Featured
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- Faculty Info -->
+                            <div class="faculty-info p-4">
+                                <h4 class="faculty-name fw-bold mb-1">{{ faculty.name }}</h4>
+                                <p class="faculty-designation text-primary mb-2">{{ faculty.designation }}</p>
+                                
+                                <div class="faculty-qualification mb-3">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3">
+                                        <i class="fas fa-graduation-cap me-1"></i> {{ faculty.qualification }}
+                                    </span>
+                                </div>
+                                
+                                <div class="faculty-details mb-3">
+                                    <div class="detail-item">
+                                        <i class="fas fa-briefcase text-primary me-2"></i>
+                                        <span>Experience: {{ faculty.experience }}</span>
+                                    </div>
+                                    {% if faculty.course %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-book-open text-primary me-2"></i>
+                                        <span>Course: {{ faculty.course.name }}</span>
+                                    </div>
+                                    {% endif %}
+                                    <div class="detail-item">
+                                        <i class="fas fa-envelope text-primary me-2"></i>
+                                        <span>{{ faculty.email|truncatechars:20 }}</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-phone-alt text-primary me-2"></i>
+                                        <span>{{ faculty.phone }}</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Research Areas -->
+                                <div class="research-areas mb-3">
+                                    <small class="text-muted d-block mb-2">Research Interests:</small>
+                                    <div class="research-tags">
+                                        <span class="research-tag">Machine Learning</span>
+                                        <span class="research-tag">AI</span>
+                                        <span class="research-tag">Data Science</span>
+                                    </div>
+                                </div>
+                                
+                                <!-- Action Buttons -->
+                                <div class="faculty-actions d-flex gap-2 mt-3">
+                                    <button class="btn btn-outline-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#facultyModal{{ faculty.id }}">
+                                        <i class="fas fa-user me-1"></i> Profile
+                                    </button>
+                                    <a href="#" class="btn btn-primary flex-grow-1">
+                                        <i class="fas fa-calendar-check me-1"></i> Office Hours
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Faculty Profile Modal -->
+                    <div class="modal fade" id="facultyModal{{ faculty.id }}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title">Faculty Profile</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body p-4">
+                                    <div class="row">
+                                        <div class="col-md-4 text-center mb-4 mb-md-0">
+                                            {% if faculty.image %}
+                                                <img src="{{ faculty.image.url }}" class="img-fluid rounded-circle mb-3" alt="{{ faculty.name }}" style="width: 200px; height: 200px; object-fit: cover;">
+                                            {% else %}
+                                                <img src="https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid rounded-circle mb-3" alt="Faculty" style="width: 200px; height: 200px; object-fit: cover;">
+                                            {% endif %}
+                                            <h5 class="fw-bold">{{ faculty.name }}</h5>
+                                            <p class="text-primary">{{ faculty.designation }}</p>
+                                            <div class="social-links-modal">
+                                                <a href="#" class="btn btn-outline-primary btn-sm"><i class="fab fa-linkedin-in"></i></a>
+                                                <a href="#" class="btn btn-outline-primary btn-sm"><i class="fab fa-twitter"></i></a>
+                                                <a href="#" class="btn btn-outline-primary btn-sm"><i class="fas fa-envelope"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8">
+                                            <h6 class="fw-bold mb-3">Biography</h6>
+                                            <p class="text-muted mb-4">{{ faculty.bio|default:"Professor with extensive experience in teaching and research. Published numerous papers in reputed journals and conferences." }}</p>
+                                            
+                                            <h6 class="fw-bold mb-3">Education</h6>
+                                            <ul class="list-unstyled mb-4">
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> {{ faculty.qualification }}</li>
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Post-doctoral Fellowship, Stanford University</li>
+                                                <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> M.Sc. from Oxford University</li>
+                                            </ul>
+                                            
+                                            <h6 class="fw-bold mb-3">Research Interests</h6>
+                                            <div class="research-tags mb-4">
+                                                <span class="research-tag">Machine Learning</span>
+                                                <span class="research-tag">Artificial Intelligence</span>
+                                                <span class="research-tag">Deep Learning</span>
+                                                <span class="research-tag">Computer Vision</span>
+                                                <span class="research-tag">Natural Language Processing</span>
+                                            </div>
+                                            
+                                            <h6 class="fw-bold mb-3">Publications</h6>
+                                            <ul class="list-unstyled">
+                                                <li class="mb-2">• "Advanced Machine Learning Techniques" - Journal of AI Research, 2023</li>
+                                                <li class="mb-2">• "Neural Networks in Healthcare" - IEEE Transactions, 2022</li>
+                                                <li class="mb-2">• "Deep Learning Applications" - Springer, 2021</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <a href="#" class="btn btn-primary">Schedule Meeting</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-12 text-center py-5">
+                        <img src="https://via.placeholder.com/200x200?text=No+Faculty" class="mb-4" alt="No faculty">
+                        <h3>No Faculty Members Available</h3>
+                        <p class="text-muted">Please check back later for updates on our distinguished faculty.</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Other department tabs would be populated dynamically -->
+            <div class="tab-pane fade" id="cs" role="tabpanel">
+                <div class="row g-4">
+                    <!-- CS faculty would appear here -->
+                </div>
+            </div>
+            <!-- Add similar divs for other departments -->
+        </div>
+
+        <!-- Load More Button -->
+        {% if faculty_members|length > 8 %}
+        <div class="text-center mt-5">
+            <button class="btn btn-outline-primary btn-lg px-5" id="loadMore">
+                Load More Faculty <i class="fas fa-chevron-down ms-2"></i>
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Faculty Achievements Section -->
+<section class="achievements-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-4 mb-3">Our Excellence</span>
+            <h2 class="display-5 fw-bold">Faculty Achievements</h2>
+            <p class="lead text-muted">Recognition and accomplishments of our distinguished faculty</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="achievement-card text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-award fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold">25+</h3>
+                    <p class="text-muted mb-0">National Awards</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="achievement-card text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-book fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold">500+</h3>
+                    <p class="text-muted mb-0">Research Papers</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="achievement-card text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold">50+</h3>
+                    <p class="text-muted mb-0">Patents Filed</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="achievement-card text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-globe fa-3x text-primary mb-3"></i>
+                    <h3 class="fw-bold">30+</h3>
+                    <p class="text-muted mb-0">Countries</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Join Our Faculty CTA -->
+<section class="cta-section py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container text-center text-white">
+        <h2 class="display-5 fw-bold mb-4">Join Our Distinguished Faculty</h2>
+        <p class="lead mb-5">We're always looking for passionate educators and researchers to join our team.</p>
+        <a href="#" class="btn btn-light btn-lg px-5 py-3">
+            <i class="fas fa-plus-circle me-2"></i>View Open Positions
+        </a>
+    </div>
+</section>
+
+<!-- Office Hours Section -->
+<section class="office-hours-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <h2 class="display-5 fw-bold mb-4">Faculty Office Hours</h2>
+                <p class="lead mb-4">Our faculty members are dedicated to providing personalized attention and guidance to students.</p>
+                <div class="office-hours-list">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="hours-icon bg-primary bg-opacity-10 text-primary p-3 rounded-3 me-3">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Monday - Friday</h6>
+                            <p class="text-muted mb-0">9:00 AM - 5:00 PM</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="hours-icon bg-primary bg-opacity-10 text-primary p-3 rounded-3 me-3">
+                            <i class="fas fa-calendar-alt fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Appointment Required</h6>
+                            <p class="text-muted mb-0">Schedule at least 24 hours in advance</p>
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <div class="hours-icon bg-primary bg-opacity-10 text-primary p-3 rounded-3 me-3">
+                            <i class="fas fa-video fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Virtual Meetings</h6>
+                            <p class="text-muted mb-0">Available via Zoom/Teams</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="schedule-card bg-white p-4 rounded-3 shadow-lg">
+                    <h4 class="fw-bold mb-4">Schedule a Meeting</h4>
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Select Faculty Member</label>
+                            <select class="form-select">
+                                <option value="">Choose faculty...</option>
+                                {% for faculty in faculty_members|slice:":5" %}
+                                    <option value="{{ faculty.id }}">{{ faculty.name }} - {{ faculty.designation }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Select Date</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Select Time</label>
+                            <select class="form-select">
+                                <option>9:00 AM</option>
+                                <option>10:00 AM</option>
+                                <option>11:00 AM</option>
+                                <option>2:00 PM</option>
+                                <option>3:00 PM</option>
+                                <option>4:00 PM</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Meeting Purpose</label>
+                            <textarea class="form-control" rows="3" placeholder="Brief description..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">Request Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Page Header */
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Faculty Cards */
+.faculty-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.faculty-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.faculty-image {
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+}
+
+.faculty-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.faculty-card:hover .faculty-image img {
+    transform: scale(1.1);
+}
+
+.social-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(102, 126, 234, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.faculty-card:hover .social-overlay {
+    opacity: 1;
+}
+
+.social-link {
+    width: 40px;
+    height: 40px;
+    background: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bs-primary);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.social-link:hover {
+    transform: scale(1.2);
+    background: var(--bs-primary);
+    color: white;
+}
+
+.featured-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #ffc107;
+    color: #000;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+/* Faculty Info */
+.faculty-info {
+    position: relative;
+}
+
+.faculty-name {
+    font-size: 1.2rem;
+}
+
+.faculty-designation {
+    font-size: 0.95rem;
+}
+
+.detail-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.detail-item i {
+    width: 20px;
+}
+
+/* Research Tags */
+.research-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.research-tag {
+    background: #f8f9fa;
+    color: #495057;
+    padding: 4px 10px;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    transition: all 0.3s;
+}
+
+.research-tag:hover {
+    background: var(--bs-primary);
+    color: white;
+}
+
+/* Filter Chips */
+.filter-chip {
+    padding: 8px 20px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.filter-chip:hover {
+    background: #e9ecef;
+}
+
+.filter-chip.active {
+    background: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+}
+
+/* Search Box */
+.search-box .input-group-text {
+    border-radius: 30px 0 0 30px;
+}
+
+.search-box input {
+    border-radius: 0 30px 30px 0;
+}
+
+/* Department Tabs */
+.nav-pills .nav-link {
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: all 0.3s;
+}
+
+.nav-pills .nav-link.active {
+    background: var(--bs-primary);
+}
+
+/* Achievement Cards */
+.achievement-card {
+    transition: all 0.3s;
+}
+
+.achievement-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+/* Office Hours Section */
+.office-hours-list .hours-icon {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.schedule-card {
+    border: none;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .faculty-image {
+        height: 220px;
+    }
+    
+    .filter-chip {
+        padding: 6px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .nav-pills {
+        flex-wrap: wrap;
+    }
+    
+    .nav-item {
+        margin: 5px !important;
+    }
+    
+    .faculty-stats {
+        flex-wrap: wrap;
+        gap: 15px !important;
+    }
+}
+</style>
+
+<!-- Add Animation CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Search and Filter Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality
+    const searchInput = document.getElementById('facultySearch');
+    const facultyItems = document.querySelectorAll('.faculty-item');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            facultyItems.forEach(item => {
+                const name = item.dataset.name || '';
+                if (name.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Filter chips
+    const filterChips = document.querySelectorAll('.filter-chip');
+    
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            filterChips.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            if (filter === 'all') {
+                facultyItems.forEach(item => item.style.display = 'block');
+            } else {
+                facultyItems.forEach(item => {
+                    const title = item.dataset.title || '';
+                    if (title.includes(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+    
+    // Load more functionality
+    const loadMoreBtn = document.getElementById('loadMore');
+    if (loadMoreBtn) {
+        let itemsToShow = 8;
+        const allItems = document.querySelectorAll('.faculty-item');
+        
+        allItems.forEach((item, index) => {
+            if (index >= itemsToShow) {
+                item.style.display = 'none';
+            }
+        });
+        
+        loadMoreBtn.addEventListener('click', function() {
+            itemsToShow += 4;
+            allItems.forEach((item, index) => {
+                if (index < itemsToShow) {
+                    item.style.display = 'block';
+                }
+            });
+            
+            if (itemsToShow >= allItems.length) {
+                loadMoreBtn.style.display = 'none';
+            }
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,838 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Events & Activities - Lincoln University{% endblock %}
+
+{% block content %}
+<!-- Page Header with Event Stats -->
+<section class="page-header bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Campus Events & Activities</h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">Stay connected with the vibrant Lincoln community through our diverse range of events, workshops, and celebrations.</p>
+                <div class="event-stats d-flex justify-content-center gap-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">{{ events.count }}</span>
+                        <span class="d-block">Total Events</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">{{ upcoming_count }}</span>
+                        <span class="d-block">Upcoming</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">{{ categories_count }}</span>
+                        <span class="d-block">Categories</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event Navigation & Filters -->
+<section class="filter-section py-4 bg-light">
+    <div class="container">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-4">
+                <div class="search-box">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-primary"></i>
+                        </span>
+                        <input type="text" 
+                               class="form-control border-start-0 ps-0" 
+                               id="eventSearch" 
+                               placeholder="Search events...">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="filter-tabs d-flex flex-wrap gap-2">
+                    <button class="filter-tab active" data-filter="all">All Events</button>
+                    <button class="filter-tab" data-filter="upcoming">Upcoming</button>
+                    <button class="filter-tab" data-filter="academic">Academic</button>
+                    <button class="filter-tab" data-filter="cultural">Cultural</button>
+                    <button class="filter-tab" data-filter="sports">Sports</button>
+                    <button class="filter-tab" data-filter="workshop">Workshops</button>
+                    <button class="filter-tab" data-filter="seminar">Seminars</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Upcoming Event -->
+{% if featured_event %}
+<section class="featured-event py-4">
+    <div class="container">
+        <div class="featured-card bg-gradient text-white rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="row g-0">
+                <div class="col-lg-8 p-5">
+                    <span class="badge bg-warning text-dark mb-3">Featured Event</span>
+                    <h2 class="display-5 fw-bold mb-3">{{ featured_event.title }}</h2>
+                    <p class="lead mb-4">{{ featured_event.description|truncatewords:30 }}</p>
+                    <div class="d-flex flex-wrap gap-4 mb-4">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-calendar-alt fa-2x me-3"></i>
+                            <div>
+                                <small>Date</small>
+                                <h6 class="mb-0">{{ featured_event.date|date:"l, F d, Y" }}</h6>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-clock fa-2x me-3"></i>
+                            <div>
+                                <small>Time</small>
+                                <h6 class="mb-0">{{ featured_event.time }}</h6>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-map-marker-alt fa-2x me-3"></i>
+                            <div>
+                                <small>Venue</small>
+                                <h6 class="mb-0">{{ featured_event.venue }}</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-light btn-lg px-5">Register Now <i class="fas fa-arrow-right ms-2"></i></a>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block">
+                    <div class="featured-image h-100" style="background: url('{% if featured_event.image %}{{ featured_event.image.url }}{% else %}https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80{% endif %}') center/cover;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Event Calendar View Toggle -->
+<section class="calendar-toggle py-3">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0"><i class="fas fa-calendar-alt text-primary me-2"></i>March 2024</h4>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary active" id="gridView">
+                    <i class="fas fa-th-large"></i> Grid
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="listView">
+                    <i class="fas fa-list"></i> List
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="calendarView">
+                    <i class="fas fa-calendar"></i> Calendar
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Events Section -->
+<section class="events-section py-4">
+    <div class="container">
+        <!-- Grid View -->
+        <div class="row g-4" id="eventsGridView">
+            {% for event in events %}
+            <div class="col-lg-4 col-md-6 event-item" 
+                 data-category="{% if event.is_upcoming %}upcoming{% else %}past{% endif %} academic"
+                 data-date="{{ event.date|date:'Y-m-d' }}">
+                <div class="event-card h-100">
+                    <!-- Event Image -->
+                    <div class="event-image position-relative">
+                        {% if event.image %}
+                            <img src="{{ event.image.url }}" class="img-fluid w-100" alt="{{ event.title }}">
+                        {% else %}
+                            <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid w-100" alt="Event">
+                        {% endif %}
+                        
+                        <!-- Event Date Badge -->
+                        <div class="event-date-badge">
+                            <span class="day">{{ event.date|date:"d" }}</span>
+                            <span class="month">{{ event.date|date:"M" }}</span>
+                        </div>
+                        
+                        <!-- Event Category -->
+                        <span class="event-category">{{ event.category|default:"Academic" }}</span>
+                        
+                        {% if event.is_upcoming %}
+                            <span class="event-status status-upcoming">Upcoming</span>
+                        {% else %}
+                            <span class="event-status status-past">Past</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Event Details -->
+                    <div class="event-details p-4">
+                        <h3 class="event-title h5 fw-bold mb-3">{{ event.title }}</h3>
+                        
+                        <div class="event-meta mb-3">
+                            <div class="meta-item">
+                                <i class="fas fa-clock text-primary me-2"></i>
+                                <span>{{ event.time }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                <span>{{ event.venue }}</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-users text-primary me-2"></i>
+                                <span>{{ event.capacity|default:"100" }} seats</span>
+                            </div>
+                        </div>
+                        
+                        <p class="event-description text-muted small mb-3">
+                            {{ event.description|truncatewords:15 }}
+                        </p>
+                        
+                        <!-- Organizer Info -->
+                        <div class="organizer-info d-flex align-items-center mb-3">
+                            <img src="https://via.placeholder.com/30x30" class="rounded-circle me-2" alt="Organizer">
+                            <span class="small">Organized by {{ event.organizer|default:"Student Council" }}</span>
+                        </div>
+                        
+                        <!-- Action Buttons -->
+                        <div class="event-actions d-flex gap-2">
+                            <button class="btn btn-outline-primary flex-grow-1" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                                <i class="fas fa-info-circle me-1"></i> Details
+                            </button>
+                            {% if event.is_upcoming %}
+                                <a href="#" class="btn btn-primary flex-grow-1">
+                                    <i class="fas fa-ticket-alt me-1"></i> Register
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-secondary flex-grow-1 disabled">
+                                    <i class="fas fa-video me-1"></i> Recording
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <!-- Progress Bar for Registered/Seats -->
+                    <div class="event-progress">
+                        <div class="progress" style="height: 5px;">
+                            <div class="progress-bar bg-success" style="width: 75%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between mt-2 small">
+                            <span>75 registered</span>
+                            <span>{{ event.capacity|default:"100" }} seats</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Detail Modal -->
+            <div class="modal fade" id="eventModal{{ event.id }}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title">{{ event.title }}</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body p-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {% if event.image %}
+                                        <img src="{{ event.image.url }}" class="img-fluid rounded-3 mb-3" alt="{{ event.title }}">
+                                    {% else %}
+                                        <img src="https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid rounded-3 mb-3" alt="Event">
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="fw-bold mb-3">Event Details</h6>
+                                    <ul class="list-unstyled">
+                                        <li class="mb-2"><i class="fas fa-calendar text-primary me-2"></i> <strong>Date:</strong> {{ event.date|date:"l, F d, Y" }}</li>
+                                        <li class="mb-2"><i class="fas fa-clock text-primary me-2"></i> <strong>Time:</strong> {{ event.time }}</li>
+                                        <li class="mb-2"><i class="fas fa-map-marker text-primary me-2"></i> <strong>Venue:</strong> {{ event.venue }}</li>
+                                        <li class="mb-2"><i class="fas fa-tag text-primary me-2"></i> <strong>Category:</strong> {{ event.category|default:"Academic" }}</li>
+                                        <li class="mb-2"><i class="fas fa-users text-primary me-2"></i> <strong>Capacity:</strong> {{ event.capacity|default:"100" }} seats</li>
+                                        <li class="mb-2"><i class="fas fa-clock text-primary me-2"></i> <strong>Duration:</strong> {{ event.duration|default:"2 hours" }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <h6 class="fw-bold mb-3">About the Event</h6>
+                                    <p>{{ event.description }}</p>
+                                    
+                                    <h6 class="fw-bold mb-3 mt-4">Schedule</h6>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            10:00 AM - 10:30 AM
+                                            <span>Registration</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            10:30 AM - 12:00 PM
+                                            <span>Main Session</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            12:00 PM - 1:00 PM
+                                            <span>Lunch Break</span>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            1:00 PM - 3:00 PM
+                                            <span>Workshop</span>
+                                        </li>
+                                    </ul>
+                                    
+                                    <h6 class="fw-bold mb-3 mt-4">Speakers</h6>
+                                    <div class="d-flex align-items-center mb-3">
+                                        <img src="https://via.placeholder.com/50x50" class="rounded-circle me-3" alt="Speaker">
+                                        <div>
+                                            <h6 class="mb-1">Dr. John Smith</h6>
+                                            <small class="text-muted">Professor, Computer Science</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            {% if event.is_upcoming %}
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fas fa-ticket-alt me-2"></i>Register Now
+                                </a>
+                            {% else %}
+                                <a href="#" class="btn btn-success">
+                                    <i class="fas fa-play me-2"></i>Watch Recording
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <img src="https://via.placeholder.com/200x200?text=No+Events" class="mb-4" alt="No events">
+                <h3>No Events Scheduled</h3>
+                <p class="text-muted">Check back later for upcoming events and activities.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- List View (Initially Hidden) -->
+        <div class="list-view" id="eventsListView" style="display: none;">
+            {% for event in events %}
+            <div class="list-event-item d-flex align-items-center p-3 mb-3 bg-white rounded-3 shadow-sm">
+                <div class="list-event-date text-center me-4">
+                    <span class="day display-6 fw-bold text-primary">{{ event.date|date:"d" }}</span>
+                    <span class="month d-block text-muted">{{ event.date|date:"M" }}</span>
+                </div>
+                <div class="list-event-details flex-grow-1">
+                    <h5 class="fw-bold mb-2">{{ event.title }}</h5>
+                    <div class="d-flex flex-wrap gap-3">
+                        <span><i class="fas fa-clock text-primary me-1"></i> {{ event.time }}</span>
+                        <span><i class="fas fa-map-marker text-primary me-1"></i> {{ event.venue }}</span>
+                        <span><i class="fas fa-users text-primary me-1"></i> {{ event.capacity|default:"100" }} seats</span>
+                    </div>
+                </div>
+                <div class="list-event-actions">
+                    {% if event.is_upcoming %}
+                        <span class="badge bg-success me-2">Upcoming</span>
+                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                            <i class="fas fa-info-circle"></i>
+                        </button>
+                    {% else %}
+                        <span class="badge bg-secondary me-2">Past</span>
+                        <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#eventModal{{ event.id }}">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Calendar View (Initially Hidden) -->
+        <div class="calendar-view" id="eventsCalendarView" style="display: none;">
+            <div class="calendar-container bg-white p-4 rounded-3 shadow-sm">
+                <div class="calendar-header d-flex justify-content-between align-items-center mb-4">
+                    <button class="btn btn-outline-primary"><i class="fas fa-chevron-left"></i></button>
+                    <h4 class="mb-0">March 2024</h4>
+                    <button class="btn btn-outline-primary"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="calendar-grid">
+                    <div class="row g-1">
+                        <div class="col weekday text-center fw-bold">Sun</div>
+                        <div class="col weekday text-center fw-bold">Mon</div>
+                        <div class="col weekday text-center fw-bold">Tue</div>
+                        <div class="col weekday text-center fw-bold">Wed</div>
+                        <div class="col weekday text-center fw-bold">Thu</div>
+                        <div class="col weekday text-center fw-bold">Fri</div>
+                        <div class="col weekday text-center fw-bold">Sat</div>
+                    </div>
+                    <div class="row g-1 mt-2">
+                        <!-- Calendar days would be populated dynamically -->
+                        {% for day in "12345678910111213141516171819202122232425262728293031"|make_list %}
+                        <div class="col text-center p-2">
+                            <div class="calendar-day {% if day == '15' %}bg-primary text-white{% endif %} rounded-3">
+                                {{ day }}
+                                {% if day == '15' %}
+                                <div class="event-indicator"></div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Event Categories Section -->
+<section class="categories-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-4 mb-3">Event Categories</span>
+            <h2 class="display-5 fw-bold">Explore Events by Category</h2>
+            <p class="lead text-muted">Find events that match your interests</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <a href="#" class="category-card d-block text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-graduation-cap fa-3x text-primary mb-3"></i>
+                    <h5>Academic</h5>
+                    <span class="badge bg-primary">12 Events</span>
+                </a>
+            </div>
+            <div class="col-md-3 col-6">
+                <a href="#" class="category-card d-block text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-music fa-3x text-success mb-3"></i>
+                    <h5>Cultural</h5>
+                    <span class="badge bg-success">8 Events</span>
+                </a>
+            </div>
+            <div class="col-md-3 col-6">
+                <a href="#" class="category-card d-block text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-futbol fa-3x text-warning mb-3"></i>
+                    <h5>Sports</h5>
+                    <span class="badge bg-warning text-dark">6 Events</span>
+                </a>
+            </div>
+            <div class="col-md-3 col-6">
+                <a href="#" class="category-card d-block text-center p-4 bg-white rounded-3 shadow-sm">
+                    <i class="fas fa-chalkboard-teacher fa-3x text-info mb-3"></i>
+                    <h5>Workshops</h5>
+                    <span class="badge bg-info">15 Events</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Upcoming Events Newsletter -->
+<section class="newsletter-section py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center text-white">
+                <h2 class="display-5 fw-bold mb-4">Never Miss an Event</h2>
+                <p class="lead mb-4">Subscribe to our newsletter and get weekly updates about campus events and activities.</p>
+                <div class="newsletter-form">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control form-control-lg" placeholder="Enter your email address">
+                        <button class="btn btn-light btn-lg" type="button">Subscribe</button>
+                    </div>
+                    <small>We respect your privacy. Unsubscribe at any time.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Past Events Archive -->
+<section class="archive-section py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-4 mb-3">Archive</span>
+            <h2 class="display-5 fw-bold">Past Events</h2>
+            <p class="lead text-muted">Relive our memorable moments</p>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="archive-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid w-100" alt="Past Event" style="height: 250px; object-fit: cover;">
+                    <div class="archive-overlay p-4">
+                        <h5>Tech Fest 2023</h5>
+                        <p class="small mb-2">December 10, 2023</p>
+                        <a href="#" class="btn btn-light btn-sm">View Gallery</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="archive-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid w-100" alt="Past Event" style="height: 250px; object-fit: cover;">
+                    <div class="archive-overlay p-4">
+                        <h5>Cultural Night</h5>
+                        <p class="small mb-2">November 25, 2023</p>
+                        <a href="#" class="btn btn-light btn-sm">View Gallery</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="archive-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" class="img-fluid w-100" alt="Past Event" style="height: 250px; object-fit: cover;">
+                    <div class="archive-overlay p-4">
+                        <h5>Sports Meet</h5>
+                        <p class="small mb-2">October 15, 2023</p>
+                        <a href="#" class="btn btn-light btn-sm">View Gallery</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Page Header */
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Featured Event */
+.featured-card {
+    position: relative;
+}
+
+.featured-image {
+    min-height: 300px;
+}
+
+/* Event Cards */
+.event-card {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.event-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.event-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+.event-card:hover .event-image img {
+    transform: scale(1.1);
+}
+
+.event-date-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: white;
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: center;
+    min-width: 60px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    z-index: 2;
+}
+
+.event-date-badge .day {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--bs-primary);
+    line-height: 1;
+}
+
+.event-date-badge .month {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+
+.event-category {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(102, 126, 234, 0.9);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 25px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.event-status {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.status-upcoming {
+    background: #28a745;
+    color: white;
+}
+
+.status-past {
+    background: #6c757d;
+    color: white;
+}
+
+.event-meta .meta-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+}
+
+.event-meta .meta-item i {
+    width: 20px;
+}
+
+.event-progress {
+    padding: 0 15px 15px;
+}
+
+/* Filter Tabs */
+.filter-tab {
+    padding: 8px 20px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.filter-tab:hover {
+    background: #e9ecef;
+}
+
+.filter-tab.active {
+    background: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+}
+
+/* Category Cards */
+.category-card {
+    transition: all 0.3s;
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important;
+}
+
+/* Calendar View */
+.calendar-day {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    position: relative;
+    cursor: pointer;
+}
+
+.event-indicator {
+    width: 6px;
+    height: 6px;
+    background: var(--bs-primary);
+    border-radius: 50%;
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* Archive Cards */
+.archive-card {
+    cursor: pointer;
+}
+
+.archive-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.archive-card:hover .archive-overlay {
+    transform: translateY(0);
+}
+
+/* List View */
+.list-event-item {
+    transition: all 0.3s;
+}
+
+.list-event-item:hover {
+    transform: translateX(10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.list-event-date {
+    min-width: 70px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .event-stats {
+        flex-wrap: wrap;
+        gap: 15px !important;
+    }
+    
+    .filter-tab {
+        padding: 6px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .list-event-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .list-event-date {
+        margin-right: 0 !important;
+        margin-bottom: 15px;
+    }
+}
+</style>
+
+<!-- Add Animation CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- View Toggle Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const gridView = document.getElementById('gridView');
+    const listView = document.getElementById('listView');
+    const calendarView = document.getElementById('calendarView');
+    const eventsGridView = document.getElementById('eventsGridView');
+    const eventsListView = document.getElementById('eventsListView');
+    const eventsCalendarView = document.getElementById('eventsCalendarView');
+    
+    // Search functionality
+    const searchInput = document.getElementById('eventSearch');
+    const eventItems = document.querySelectorAll('.event-item');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            eventItems.forEach(item => {
+                const title = item.querySelector('.event-title').textContent.toLowerCase();
+                const desc = item.querySelector('.event-description').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || desc.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Filter tabs
+    const filterTabs = document.querySelectorAll('.filter-tab');
+    
+    filterTabs.forEach(tab => {
+        tab.addEventListener('click', function() {
+            filterTabs.forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            if (filter === 'all') {
+                eventItems.forEach(item => item.style.display = 'block');
+            } else {
+                eventItems.forEach(item => {
+                    const categories = item.dataset.category || '';
+                    if (categories.includes(filter)) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        });
+    });
+    
+    // View toggles
+    if (gridView) {
+        gridView.addEventListener('click', function() {
+            gridView.classList.add('active');
+            listView.classList.remove('active');
+            calendarView.classList.remove('active');
+            
+            eventsGridView.style.display = 'flex';
+            eventsListView.style.display = 'none';
+            eventsCalendarView.style.display = 'none';
+        });
+    }
+    
+    if (listView) {
+        listView.addEventListener('click', function() {
+            listView.classList.add('active');
+            gridView.classList.remove('active');
+            calendarView.classList.remove('active');
+            
+            eventsGridView.style.display = 'none';
+            eventsListView.style.display = 'block';
+            eventsCalendarView.style.display = 'none';
+        });
+    }
+    
+    if (calendarView) {
+        calendarView.addEventListener('click', function() {
+            calendarView.classList.add('active');
+            gridView.classList.remove('active');
+            listView.classList.remove('active');
+            
+            eventsGridView.style.display = 'none';
+            eventsListView.style.display = 'none';
+            eventsCalendarView.style.display = 'block';
+        });
+    }
+});
+</script>
+{% endblock %}

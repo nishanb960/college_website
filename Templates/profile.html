@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Profile - College Website{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body text-center">
+                    {% if profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}" class="rounded-circle img-fluid mb-3" alt="Profile Picture" style="width: 200px; height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="https://via.placeholder.com/200" class="rounded-circle img-fluid mb-3" alt="Profile Picture">
+                    {% endif %}
+                    <h4>{{ user.get_full_name }}</h4>
+                    <p class="text-muted">@{{ user.username }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Profile Details</h5>
+                </div>
+                <div class="card-body">
+                    {% if profile %}
+                        <table class="table">
+                            <tr>
+                                <th>Student ID:</th>
+                                <td>{{ profile.student_id }}</td>
+                            </tr>
+                            <tr>
+                                <th>Full Name:</th>
+                                <td>{{ user.get_full_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email:</th>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Phone:</th>
+                                <td>{{ profile.phone }}</td>
+                            </tr>
+                            <tr>
+                                <th>Address:</th>
+                                <td>{{ profile.address }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date of Birth:</th>
+                                <td>{{ profile.date_of_birth }}</td>
+                            </tr>
+                            <tr>
+                                <th>Enrollment Date:</th>
+                                <td>{{ profile.enrollment_date }}</td>
+                            </tr>
+                        </table>
+                        <a href="{% url 'profile_setup' %}" class="btn btn-primary">Edit Profile</a>
+                    {% else %}
+                        <p>Profile not set up yet.</p>
+                        <a href="{% url 'profile_setup' %}" class="btn btn-primary">Set Up Profile</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

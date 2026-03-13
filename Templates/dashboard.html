@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - College Website{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Profile Information</h5>
+                </div>
+                <div class="card-body">
+                    {% if profile %}
+                        <p><strong>Student ID:</strong> {{ profile.student_id }}</p>
+                        <p><strong>Phone:</strong> {{ profile.phone }}</p>
+                        <p><strong>Address:</strong> {{ profile.address }}</p>
+                        <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+                        <p><strong>Enrollment Date:</strong> {{ profile.enrollment_date }}</p>
+                        <a href="{% url 'profile_setup' %}" class="btn btn-primary btn-sm">Edit Profile</a>
+                    {% else %}
+                        <p>You haven't set up your profile yet.</p>
+                        <a href="{% url 'profile_setup' %}" class="btn btn-primary">Set Up Profile</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">My Applications</h5>
+                </div>
+                <div class="card-body">
+                    {% if applications %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Course</th>
+                                        <th>Applied Date</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application in applications %}
+                                    <tr>
+                                        <td>{{ application.course.name }}</td>
+                                        <td>{{ application.applied_date|date }}</td>
+                                        <td>
+                                            {% if application.status == 'approved' %}
+                                                <span class="badge bg-success">Approved</span>
+                                            {% elif application.status == 'rejected' %}
+                                                <span class="badge bg-danger">Rejected</span>
+                                            {% else %}
+                                                <span class="badge bg-warning">Pending</span>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <p>You haven't submitted any applications yet.</p>
+                        <a href="{% url 'admissions' %}" class="btn btn-primary">Apply Now</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

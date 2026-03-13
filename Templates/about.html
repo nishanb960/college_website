@@ -1,0 +1,599 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us - College Website{% endblock %}
+
+{% block content %}
+<!-- Hero Section with Parallax Effect -->
+<section class="about-hero position-relative text-white" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 100px 0;">
+    <div class="container text-center">
+        <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeInDown">About Our College</h1>
+        <p class="lead mb-4 animate__animated animate__fadeInUp">Shaping Futures, Transforming Lives Since 1980</p>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="stats-container bg-white bg-opacity-10 rounded p-4">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stat-item">
+                                <h3 class="display-4 fw-bold">40+</h3>
+                                <p>Years of Excellence</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-item">
+                                <h3 class="display-4 fw-bold">15K+</h3>
+                                <p>Alumni Network</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-item">
+                                <h3 class="display-4 fw-bold">50+</h3>
+                                <p>Expert Faculty</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Wave Shape Divider -->
+    <div class="custom-shape-divider-bottom-1687852213">
+        <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill" fill="#ffffff"></path>
+        </svg>
+    </div>
+</section>
+
+<!-- History Section with Timeline -->
+<section class="history-section py-5">
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3 mb-3">Our Journey</span>
+                <h2 class="display-5 fw-bold mb-4">Four Decades of Academic Excellence</h2>
+                <p class="lead mb-4">Founded in 1980 with a vision to transform education, our institution has grown from a small college to a premier educational hub.</p>
+                
+                <!-- Timeline -->
+                <div class="timeline mt-4">
+                    <div class="timeline-item d-flex mb-4">
+                        <div class="timeline-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="timeline-content ms-3">
+                            <h5>1980 - The Beginning</h5>
+                            <p class="text-muted">Founded with just 50 students and 5 faculty members</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex mb-4">
+                        <div class="timeline-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="timeline-content ms-3">
+                            <h5>1995 - Expansion</h5>
+                            <p class="text-muted">Added new campus and introduced 10 new courses</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex mb-4">
+                        <div class="timeline-icon bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-globe"></i>
+                        </div>
+                        <div class="timeline-content ms-3">
+                            <h5>2010 - Global Recognition</h5>
+                            <p class="text-muted">Ranked among top 50 colleges nationally</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item d-flex">
+                        <div class="timeline-icon bg-warning text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="timeline-content ms-3">
+                            <h5>2024 - Digital Transformation</h5>
+                            <p class="text-muted">Embracing technology for modern education</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                         class="img-fluid rounded-3 shadow-lg" alt="College History">
+                    <div class="experience-badge bg-primary text-white p-4 rounded-3 position-absolute bottom-0 end-0 m-4">
+                        <h3 class="display-6 fw-bold mb-0">40+</h3>
+                        <p class="mb-0">Years of Excellence</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission & Vision Cards -->
+<section class="mission-vision py-5 bg-light">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-lg hover-card">
+                    <div class="card-body p-5">
+                        <div class="icon-box bg-primary bg-opacity-10 text-primary p-3 rounded-3 d-inline-block mb-4">
+                            <i class="fas fa-bullseye fa-3x"></i>
+                        </div>
+                        <h3 class="fw-bold mb-4">Our Mission</h3>
+                        <p class="lead mb-4">"To empower students with knowledge, skills, and values necessary to excel in their chosen fields and contribute meaningfully to society."</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Quality education for all</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Holistic student development</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Industry-aligned curriculum</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-primary me-2"></i> Research and innovation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card h-100 border-0 shadow-lg hover-card">
+                    <div class="card-body p-5">
+                        <div class="icon-box bg-success bg-opacity-10 text-success p-3 rounded-3 d-inline-block mb-4">
+                            <i class="fas fa-eye fa-3x"></i>
+                        </div>
+                        <h3 class="fw-bold mb-4">Our Vision</h3>
+                        <p class="lead mb-4">"To be a globally recognized center of excellence that nurtures innovative leaders and contributes to the advancement of knowledge and society."</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Global recognition by 2030</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Research excellence center</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> International collaborations</li>
+                            <li class="mb-2"><i class="fas fa-check-circle text-success me-2"></i> Sustainable campus</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Core Values Section -->
+<section class="values-section py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3 mb-3">Our Core Values</span>
+            <h2 class="display-5 fw-bold">What Drives Us</h2>
+            <p class="lead">The principles that guide our actions and decisions</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-3 col-sm-6">
+                <div class="value-card text-center p-4">
+                    <div class="value-icon mx-auto mb-3 bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-graduation-cap fa-3x"></i>
+                    </div>
+                    <h5>Excellence</h5>
+                    <p class="small text-muted">Striving for the highest standards in education</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="value-card text-center p-4">
+                    <div class="value-icon mx-auto mb-3 bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-users fa-3x"></i>
+                    </div>
+                    <h5>Inclusivity</h5>
+                    <p class="small text-muted">Embracing diversity and equal opportunities</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="value-card text-center p-4">
+                    <div class="value-icon mx-auto mb-3 bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-lightbulb fa-3x"></i>
+                    </div>
+                    <h5>Innovation</h5>
+                    <p class="small text-muted">Fostering creativity and new ideas</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="value-card text-center p-4">
+                    <div class="value-icon mx-auto mb-3 bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="fas fa-heart fa-3x"></i>
+                    </div>
+                    <h5>Integrity</h5>
+                    <p class="small text-muted">Upholding ethical values in all we do</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Leadership Team Section -->
+<section class="leadership-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3 mb-3">Leadership</span>
+            <h2 class="display-5 fw-bold">Meet Our Leaders</h2>
+            <p class="lead">Dedicated professionals guiding our institution towards excellence</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm hover-card">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                         class="card-img-top" alt="Principal" style="height: 300px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">Dr. John Smith</h5>
+                        <p class="text-primary mb-2">Principal</p>
+                        <p class="small text-muted mb-3">Ph.D. in Education, 25+ years experience</p>
+                        <div class="social-links">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary me-2"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-primary"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm hover-card">
+                    <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80" 
+                         class="card-img-top" alt="Dean" style="height: 300px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">Dr. Sarah Johnson</h5>
+                        <p class="text-primary mb-2">Dean of Academics</p>
+                        <p class="small text-muted mb-3">Ph.D. in Computer Science, 20+ years experience</p>
+                        <div class="social-links">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary me-2"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-primary"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card border-0 shadow-sm hover-card">
+                    <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                         class="card-img-top" alt="Director" style="height: 300px; object-fit: cover;">
+                    <div class="card-body text-center">
+                        <h5 class="fw-bold">Prof. Michael Brown</h5>
+                        <p class="text-primary mb-2">Director of Student Affairs</p>
+                        <p class="small text-muted mb-3">M.Ed., 18+ years in student development</p>
+                        <div class="social-links">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" class="text-primary me-2"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="text-primary"><i class="fas fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Choose Us Section - Enhanced -->
+<section class="why-choose-us py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3 mb-3">Why Choose Us</span>
+            <h2 class="display-5 fw-bold">The College Advantage</h2>
+            <p class="lead">What makes us different from others</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-chalkboard-teacher fa-3x text-primary"></i>
+                    </div>
+                    <h5>Expert Faculty</h5>
+                    <p class="text-muted small">Learn from industry experts and experienced professors dedicated to your success.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-flask fa-3x text-success"></i>
+                    </div>
+                    <h5>Modern Labs</h5>
+                    <p class="text-muted small">State-of-the-art laboratories with latest equipment for practical learning.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-briefcase fa-3x text-info"></i>
+                    </div>
+                    <h5>Placement Support</h5>
+                    <p class="text-muted small">Dedicated placement cell with 90%+ placement record in top companies.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="feature-card text-center p-4">
+                    <div class="feature-icon mb-3">
+                        <i class="fas fa-globe fa-3x text-warning"></i>
+                    </div>
+                    <h5>Global Exposure</h5>
+                    <p class="text-muted small">International collaborations and student exchange programs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Campus Stats Section -->
+<section class="stats-section py-5 bg-primary text-white">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-4 mb-md-0">
+                <div class="stat-item">
+                    <i class="fas fa-users fa-3x mb-3"></i>
+                    <h3 class="display-5 fw-bold counter" data-target="15000">0</h3>
+                    <p class="mb-0">Alumni Worldwide</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-4 mb-md-0">
+                <div class="stat-item">
+                    <i class="fas fa-book-open fa-3x mb-3"></i>
+                    <h3 class="display-5 fw-bold counter" data-target="50">0</h3>
+                    <p class="mb-0">Academic Programs</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-trophy fa-3x mb-3"></i>
+                    <h3 class="display-5 fw-bold counter" data-target="100">0</h3>
+                    <p class="mb-0">Awards Won</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-building fa-3x mb-3"></i>
+                    <h3 class="display-5 fw-bold counter" data-target="25">0</h3>
+                    <p class="mb-0">Partner Companies</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary py-2 px-3 mb-3">Testimonials</span>
+            <h2 class="display-5 fw-bold">What Our Students Say</h2>
+            <p class="lead">Hear from our successful alumni and current students</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="testimonial-card bg-white p-4 shadow-sm rounded-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://images.unsplash.com/photo-1494790108777-9f6e6a79d0b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                             class="rounded-circle me-3" alt="Student" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div>
+                            <h6 class="fw-bold mb-1">Emily Clark</h6>
+                            <p class="small text-muted mb-0">Computer Science, 2023</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text fst-italic">"The faculty and infrastructure here are amazing. I got placed in my dream company thanks to the excellent placement training."</p>
+                    <div class="text-warning">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="testimonial-card bg-white p-4 shadow-sm rounded-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80" 
+                             class="rounded-circle me-3" alt="Student" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div>
+                            <h6 class="fw-bold mb-1">David Chen</h6>
+                            <p class="small text-muted mb-0">Business Administration, 2022</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text fst-italic">"The practical approach to learning and industry exposure helped me start my own business right after graduation."</p>
+                    <div class="text-warning">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="testimonial-card bg-white p-4 shadow-sm rounded-3">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                             class="rounded-circle me-3" alt="Student" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div>
+                            <h6 class="fw-bold mb-1">Sarah Williams</h6>
+                            <p class="small text-muted mb-0">Physics, 2023</p>
+                        </div>
+                    </div>
+                    <p class="testimonial-text fst-italic">"The research facilities and guidance from professors helped me publish my first research paper in my sophomore year!"</p>
+                    <div class="text-warning">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container text-center text-white">
+        <h2 class="display-5 fw-bold mb-4">Ready to Start Your Journey?</h2>
+        <p class="lead mb-4">Join thousands of successful alumni who transformed their careers with us.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'admissions' %}" class="btn btn-light btn-lg px-5 py-3">Apply Now</a>
+            <a href="{% url 'contact' %}" class="btn btn-outline-light btn-lg px-5 py-3">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Custom CSS for About Page */
+.about-hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.custom-shape-divider-bottom-1687852213 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1687852213 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 80px;
+}
+
+.custom-shape-divider-bottom-1687852213 .shape-fill {
+    fill: #FFFFFF;
+}
+
+.hover-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 30px rgba(0,0,0,0.15) !important;
+}
+
+.timeline-item {
+    position: relative;
+}
+
+.timeline-icon {
+    flex-shrink: 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.value-card {
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.value-card:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: scale(1.05);
+}
+
+.value-card:hover .value-icon {
+    background: rgba(255,255,255,0.2) !important;
+    color: white !important;
+}
+
+.value-card:hover p {
+    color: rgba(255,255,255,0.9) !important;
+}
+
+.feature-card {
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    background: #f8f9fa;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.testimonial-card {
+    transition: all 0.3s ease;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+}
+
+.counter {
+    animation: countUp 2s ease-out;
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .experience-badge {
+        position: relative !important;
+        margin-top: 20px !important;
+    }
+}
+</style>
+
+<!-- Add Animation CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Counter Animation Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200;
+
+    const animateCounter = (counter) => {
+        const updateCount = () => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const inc = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+
+        updateCount();
+    };
+
+    // Intersection Observer to trigger counter when visible
+    const observerOptions = {
+        threshold: 0.5
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const counter = entry.target;
+                animateCounter(counter);
+                observer.unobserve(counter);
+            }
+        });
+    }, observerOptions);
+
+    counters.forEach(counter => {
+        observer.observe(counter);
+    });
+});
+</script>
+{% endblock %}

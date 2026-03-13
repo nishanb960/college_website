@@ -1,0 +1,767 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Campus Gallery - Lincoln University{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header bg-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3 animate__animated animate__fadeInDown">Campus Gallery</h1>
+                <p class="lead mb-4 animate__animated animate__fadeInUp animate__delay-1s">Explore the vibrant life at Lincoln University through our photo collection</p>
+                <div class="gallery-stats d-flex justify-content-center gap-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">{{ images.count }}</span>
+                        <span class="d-block">Total Photos</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">6</span>
+                        <span class="d-block">Categories</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="h3 fw-bold">2024</span>
+                        <span class="d-block">This Year</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Gallery Filter Section -->
+<section class="gallery-filter py-4 bg-light">
+    <div class="container">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-4">
+                <div class="search-box">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0">
+                            <i class="fas fa-search text-primary"></i>
+                        </span>
+                        <input type="text" 
+                               class="form-control border-start-0 ps-0" 
+                               id="gallerySearch" 
+                               placeholder="Search images...">
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8">
+                <div class="filter-chips d-flex flex-wrap gap-2">
+                    <span class="filter-chip active" data-filter="all">All Photos</span>
+                    <span class="filter-chip" data-filter="campus">Campus</span>
+                    <span class="filter-chip" data-filter="events">Events</span>
+                    <span class="filter-chip" data-filter="students">Students</span>
+                    <span class="filter-chip" data-filter="sports">Sports</span>
+                    <span class="filter-chip" data-filter="academic">Academic</span>
+                    <span class="filter-chip" data-filter="cultural">Cultural</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Gallery Section -->
+<section class="featured-gallery py-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-6">
+                <div class="featured-card position-relative overflow-hidden rounded-4" onclick="openLightbox(0)">
+                    <img src="https://images.unsplash.com/photo-1541339901998-67808f6b3d3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                         class="img-fluid w-100" alt="Featured" style="height: 400px; object-fit: cover;">
+                    <div class="featured-overlay">
+                        <span class="badge bg-primary mb-2">Featured</span>
+                        <h3>Main Campus Library</h3>
+                        <p class="mb-0">State-of-the-art facility with 50,000+ books</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="row g-4">
+                    <div class="col-6">
+                        <div class="featured-card position-relative overflow-hidden rounded-4" onclick="openLightbox(1)">
+                            <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                                 class="img-fluid w-100" alt="Featured" style="height: 190px; object-fit: cover;">
+                            <div class="featured-overlay small">
+                                <h5>Student Center</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="featured-card position-relative overflow-hidden rounded-4" onclick="openLightbox(2)">
+                            <img src="https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-4.0.3&auto=format&fit=crop&w=1186&q=80" 
+                                 class="img-fluid w-100" alt="Featured" style="height: 190px; object-fit: cover;">
+                            <div class="featured-overlay small">
+                                <h5>Science Labs</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="featured-card position-relative overflow-hidden rounded-4" onclick="openLightbox(3)">
+                            <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                                 class="img-fluid w-100" alt="Featured" style="height: 190px; object-fit: cover;">
+                            <div class="featured-overlay small">
+                                <h5>Graduation Day</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="featured-card position-relative overflow-hidden rounded-4" onclick="openLightbox(4)">
+                            <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                                 class="img-fluid w-100" alt="Featured" style="height: 190px; object-fit: cover;">
+                            <div class="featured-overlay small">
+                                <h5>Sports Complex</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Category Albums -->
+<section class="albums-section py-4">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="album-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1541829070764-833a7f84526c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                         class="img-fluid w-100" alt="Album" style="height: 200px; object-fit: cover;">
+                    <div class="album-overlay">
+                        <h5>Campus Life</h5>
+                        <span class="badge bg-primary">24 Photos</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="album-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                         class="img-fluid w-100" alt="Album" style="height: 200px; object-fit: cover;">
+                    <div class="album-overlay">
+                        <h5>Events</h5>
+                        <span class="badge bg-primary">18 Photos</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="album-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1529333320936-e2193f4e3b32?ixlib=rb-4.0.3&auto=format&fit=crop&w=1169&q=80" 
+                         class="img-fluid w-100" alt="Album" style="height: 200px; object-fit: cover;">
+                    <div class="album-overlay">
+                        <h5>Sports</h5>
+                        <span class="badge bg-primary">15 Photos</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="album-card position-relative overflow-hidden rounded-3">
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80" 
+                         class="img-fluid w-100" alt="Album" style="height: 200px; object-fit: cover;">
+                    <div class="album-overlay">
+                        <h5>Academic</h5>
+                        <span class="badge bg-primary">12 Photos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Gallery Grid -->
+<section class="gallery-section py-4">
+    <div class="container">
+        <!-- View Toggle -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-0"><i class="fas fa-images text-primary me-2"></i>All Photos</h4>
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-outline-primary active" id="gridViewBtn">
+                    <i class="fas fa-th-large"></i> Grid
+                </button>
+                <button type="button" class="btn btn-outline-primary" id="masonryViewBtn">
+                    <i class="fas fa-th"></i> Masonry
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid View -->
+        <div class="row g-4" id="gridView">
+            {% for image in images %}
+            <div class="col-lg-4 col-md-6 gallery-item" data-category="campus" data-title="{{ image.title|lower }}">
+                <div class="gallery-card" onclick="openLightbox({{ forloop.counter0 }})">
+                    <div class="gallery-image position-relative overflow-hidden rounded-3">
+                        <img src="{{ image.image.url }}" class="img-fluid w-100" alt="{{ image.title }}" style="height: 280px; object-fit: cover;">
+                        <div class="image-overlay">
+                            <div class="overlay-content">
+                                <h5 class="text-white mb-2">{{ image.title }}</h5>
+                                <p class="text-white-50 small mb-3">
+                                    <i class="fas fa-calendar me-1"></i> {{ image.uploaded_at|date:"M d, Y" }}
+                                </p>
+                                <div class="overlay-actions">
+                                    <button class="btn btn-light btn-sm" onclick="event.stopPropagation(); openLightbox({{ forloop.counter0 }})">
+                                        <i class="fas fa-expand"></i> View
+                                    </button>
+                                    <button class="btn btn-outline-light btn-sm" onclick="event.stopPropagation(); downloadImage('{{ image.image.url }}', '{{ image.title }}')">
+                                        <i class="fas fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-badge">
+                            <span class="badge bg-primary">{{ image.category|default:"Campus" }}</span>
+                        </div>
+                    </div>
+                    <div class="gallery-info d-flex justify-content-between align-items-center mt-2 px-1">
+                        <span class="small text-muted">
+                            <i class="fas fa-eye me-1"></i> {{ image.views|default:"124" }} views
+                        </span>
+                        <span class="small text-muted">
+                            <i class="fas fa-heart me-1 text-danger"></i> {{ image.likes|default:"23" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <img src="https://via.placeholder.com/200x200?text=No+Images" class="mb-4" alt="No images">
+                <h3>No Images Available</h3>
+                <p class="text-muted">Check back later for updates to our gallery.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Masonry View (Initially Hidden) -->
+        <div class="masonry-grid" id="masonryView" style="display: none;">
+            <div class="grid-sizer"></div>
+            {% for image in images %}
+            <div class="masonry-item" data-category="campus">
+                <div class="gallery-card" onclick="openLightbox({{ forloop.counter0 }})">
+                    <img src="{{ image.image.url }}" class="img-fluid w-100" alt="{{ image.title }}" style="border-radius: 10px;">
+                    <div class="masonry-overlay">
+                        <h6 class="text-white">{{ image.title }}</h6>
+                        <small class="text-white-50">{{ image.uploaded_at|date }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox Modal -->
+<div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content bg-dark">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center justify-content-center">
+                <div id="lightboxCarousel" class="carousel slide w-100" data-bs-ride="false">
+                    <div class="carousel-inner" id="lightboxCarouselInner">
+                        <!-- Images will be inserted here dynamically -->
+                    </div>
+                    
+                    <button class="carousel-control-prev" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#lightboxCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer border-0 justify-content-between">
+                <div class="text-white">
+                    <h5 id="lightboxTitle"></h5>
+                    <p id="lightboxDate" class="mb-0"></p>
+                </div>
+                <div class="lightbox-actions">
+                    <button class="btn btn-outline-light me-2" onclick="downloadCurrentImage()">
+                        <i class="fas fa-download"></i> Download
+                    </button>
+                    <button class="btn btn-outline-light" onclick="shareImage()">
+                        <i class="fas fa-share-alt"></i> Share
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Section (for authenticated users) -->
+{% if user.is_authenticated and user.is_staff %}
+<section class="upload-section py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h3 class="mb-4">Add to Gallery</h3>
+                <p class="text-muted mb-4">Share your campus moments with the community</p>
+                <form method="post" enctype="multipart/form-data" class="upload-form">
+                    {% csrf_token %}
+                    <div class="upload-area p-5 border-2 border-dashed rounded-3 bg-white" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt fa-4x text-primary mb-3"></i>
+                        <h5>Drag & Drop Images Here</h5>
+                        <p class="text-muted mb-3">or</p>
+                        <button type="button" class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+                            Browse Files
+                        </button>
+                        <input type="file" id="fileInput" name="images" multiple accept="image/*" class="d-none">
+                        <p class="text-muted small mt-3">Supported formats: JPG, PNG, GIF (Max 10MB each)</p>
+                    </div>
+                    
+                    <div class="selected-files mt-3" id="selectedFiles"></div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Album/Category" name="category">
+                        </div>
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="fas fa-upload me-2"></i>Upload Images
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Gallery Stats Section -->
+<section class="stats-section py-4">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box p-3">
+                    <i class="fas fa-camera fa-2x text-primary mb-2"></i>
+                    <h3 class="fw-bold">250+</h3>
+                    <p class="text-muted mb-0">Total Photos</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box p-3">
+                    <i class="fas fa-calendar-alt fa-2x text-primary mb-2"></i>
+                    <h3 class="fw-bold">15+</h3>
+                    <p class="text-muted mb-0">Events Covered</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box p-3">
+                    <i class="fas fa-users fa-2x text-primary mb-2"></i>
+                    <h3 class="fw-bold">1.2k+</h3>
+                    <p class="text-muted mb-0">Monthly Views</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6 mb-3">
+                <div class="stat-box p-3">
+                    <i class="fas fa-download fa-2x text-primary mb-2"></i>
+                    <h3 class="fw-bold">500+</h3>
+                    <p class="text-muted mb-0">Downloads</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Social Share Section -->
+<section class="share-section py-4 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h5>Share Your Campus Moments</h5>
+                <p class="text-muted">Tag #LincolnUniversity on Instagram for a chance to be featured</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-instagram"></i> Instagram</a>
+                <a href="#" class="btn btn-outline-primary me-2"><i class="fab fa-facebook"></i> Facebook</a>
+                <a href="#" class="btn btn-outline-primary"><i class="fab fa-twitter"></i> Twitter</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Page Header */
+.page-header {
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 30s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Filter Chips */
+.filter-chip {
+    padding: 8px 20px;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-size: 0.95rem;
+}
+
+.filter-chip:hover {
+    background: #e9ecef;
+}
+
+.filter-chip.active {
+    background: var(--bs-primary);
+    color: white;
+    border-color: var(--bs-primary);
+}
+
+/* Featured Cards */
+.featured-card {
+    cursor: pointer;
+}
+
+.featured-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 20px;
+    transform: translateY(100%);
+    transition: transform 0.3s;
+}
+
+.featured-card:hover .featured-overlay {
+    transform: translateY(0);
+}
+
+.featured-overlay.small {
+    padding: 15px;
+}
+
+/* Album Cards */
+.album-card {
+    cursor: pointer;
+}
+
+.album-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.album-card:hover .album-overlay {
+    opacity: 1;
+}
+
+/* Gallery Cards */
+.gallery-card {
+    cursor: pointer;
+}
+
+.gallery-image {
+    overflow: hidden;
+}
+
+.gallery-image img {
+    transition: transform 0.5s;
+}
+
+.gallery-card:hover .gallery-image img {
+    transform: scale(1.1);
+}
+
+.image-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(102, 126, 234, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.gallery-card:hover .image-overlay {
+    opacity: 1;
+}
+
+.overlay-content {
+    text-align: center;
+    padding: 20px;
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+.gallery-card:hover .overlay-content {
+    transform: translateY(0);
+}
+
+.image-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 2;
+}
+
+/* Masonry Grid */
+.masonry-grid {
+    column-count: 3;
+    column-gap: 20px;
+}
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 20px;
+    position: relative;
+    cursor: pointer;
+}
+
+.masonry-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: white;
+    padding: 15px;
+    border-radius: 0 0 10px 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.masonry-item:hover .masonry-overlay {
+    opacity: 1;
+}
+
+/* Upload Area */
+.upload-area {
+    border-style: dashed !important;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.upload-area:hover {
+    border-color: var(--bs-primary) !important;
+    background: #f8f9fa !important;
+}
+
+/* Lightbox */
+.carousel-item img {
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .gallery-stats {
+        flex-wrap: wrap;
+        gap: 15px !important;
+    }
+    
+    .filter-chip {
+        padding: 6px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .masonry-grid {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 576px) {
+    .masonry-grid {
+        column-count: 1;
+    }
+}
+</style>
+
+<!-- Add Animation CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<!-- Gallery Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Image data array for lightbox
+    const galleryImages = [
+        {% for image in images %}
+        {
+            url: "{{ image.image.url }}",
+            title: "{{ image.title|escapejs }}",
+            date: "{{ image.uploaded_at|date:'F d, Y' }}"
+        },
+        {% endfor %}
+    ];
+
+    // Search functionality
+    const searchInput = document.getElementById('gallerySearch');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+    
+    if (searchInput) {
+        searchInput.addEventListener('keyup', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            galleryItems.forEach(item => {
+                const title = item.dataset.title || '';
+                if (title.includes(searchTerm)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        });
+    }
+    
+    // Filter chips
+    const filterChips = document.querySelectorAll('.filter-chip');
+    
+    filterChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            filterChips.forEach(c => c.classList.remove('active'));
+            this.classList.add('active');
+            
+            const filter = this.dataset.filter;
+            
+            galleryItems.forEach(item => {
+                if (filter === 'all') {
+                    item.style.display = 'block';
+                } else {
+                    const category = item.dataset.category || '';
+                    if (category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                }
+            });
+        });
+    });
+    
+    // View toggle
+    const gridViewBtn = document.getElementById('gridViewBtn');
+    const masonryViewBtn = document.getElementById('masonryViewBtn');
+    const gridView = document.getElementById('gridView');
+    const masonryView = document.getElementById('masonryView');
+    
+    if (gridViewBtn && masonryViewBtn) {
+        gridViewBtn.addEventListener('click', function() {
+            gridViewBtn.classList.add('active');
+            masonryViewBtn.classList.remove('active');
+            gridView.style.display = 'flex';
+            masonryView.style.display = 'none';
+        });
+        
+        masonryViewBtn.addEventListener('click', function() {
+            masonryViewBtn.classList.add('active');
+            gridViewBtn.classList.remove('active');
+            gridView.style.display = 'none';
+            masonryView.style.display = 'block';
+        });
+    }
+    
+    // File upload preview
+    const fileInput = document.getElementById('fileInput');
+    const selectedFiles = document.getElementById('selectedFiles');
+    
+    if (fileInput) {
+        fileInput.addEventListener('change', function() {
+            const files = Array.from(this.files);
+            selectedFiles.innerHTML = '';
+            
+            files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'selected-file d-flex align-items-center justify-content-between p-2 mb-2 bg-white rounded-3';
+                fileItem.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-image text-primary me-2"></i>
+                        <span>${file.name}</span>
+                        <small class="text-muted ms-2">(${(file.size / 1024).toFixed(2)} KB)</small>
+                    </div>
+                    <i class="fas fa-times text-danger" onclick="this.parentElement.remove()"></i>
+                `;
+                selectedFiles.appendChild(fileItem);
+            });
+        });
+    }
+});
+
+// Lightbox functions
+function openLightbox(index) {
+    const modal = new bootstrap.Modal(document.getElementById('lightboxModal'));
+    const carouselInner = document.getElementById('lightboxCarouselInner');
+    
+    carouselInner.innerHTML = '';
+    
+    galleryImages.forEach((img, i) => {
+        const activeClass = i === index ? 'active' : '';
+        carouselInner.innerHTML += `
+            <div class="carousel-item ${activeClass}">
+                <img src="${img.url}" class="d-block mx-auto" style="max-height: 80vh;" alt="${img.title}">
+            </div>
+        `;
+    });
+    
+    updateLightboxInfo(index);
+    modal.show();
+}
+
+function updateLightboxInfo(index) {
+    const img = galleryImages[index];
+    document.getElementById('lightboxTitle').textContent = img.title;
+    document.getElementById('lightboxDate').textContent = img.date;
+}
+
+function downloadCurrentImage() {
+    const activeIndex = Array.from(document.querySelectorAll('.carousel-item')).findIndex(item => item.classList.contains('active'));
+    if (activeIndex !== -1) {
+        downloadImage(galleryImages[activeIndex].url, galleryImages[activeIndex].title);
+    }
+}
+
+function downloadImage(url, title) {
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = title + '.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+}
+
+function shareImage() {
+    // Implement share functionality
+    alert('Share feature coming soon!');
+}
+
+// Update lightbox info on slide
+document.getElementById('lightboxCarousel').addEventListener('slid.bs.carousel', function() {
+    const activeIndex = Array.from(document.querySelectorAll('.carousel-item')).findIndex(item => item.classList.contains('active'));
+    updateLightboxInfo(activeIndex);
+});
+</script>
+{% endblock %}
